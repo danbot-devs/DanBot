@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 exports.run = (client, message, args, Discord) => {
-=======
-const Discord = require('discord.js');
-exports.run = (client, message, args) => {
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
     let question = message.content.split(' ').slice(1).join(' ');
     const answers = [
         'As I See It Yes',
@@ -30,10 +25,6 @@ exports.run = (client, message, args) => {
     }
     const embed = new Discord.RichEmbed()
   .setAuthor(`8ball`, 'http://8ballsportsbar.com/wp-content/uploads/2016/02/2000px-8_ball_icon.svg_.png')
-<<<<<<< HEAD
   .addField('Info:', `**Your Question:** ${question}\n**My Prediction:** ${answers[~~(Math.random() * answers.length)]}`);
-=======
-  .addField('Info:', `**Your Question:** ${args}\n**My Prediction:** ${answers[~~(Math.random() * answers.length)]}`);
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
     message.channel.send({embed}).catch(e => logger.error(e))
 };

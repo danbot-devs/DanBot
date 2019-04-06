@@ -16,10 +16,7 @@ var maincommands = [
     "__**uptime**__ | Check the bots uptime!",
     "__**userinfo**__ | Check someones user infomation",
     "__**speedtest**__ | Internet speedtest for the bot!",
-<<<<<<< HEAD
     "__**listemojis**__ | View the server emojis!"
-=======
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
 ]
 var moderationcommands = [
     "__**antijoin**__ | Kick anyone who tries to join!",

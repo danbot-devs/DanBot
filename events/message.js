@@ -1,8 +1,5 @@
 const Discord = require("discord.js");
-<<<<<<< HEAD
 const fs = require("fs");
-=======
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
 const sql = require("sqlite");
 const sql2 = require("sqlite");
 sql.open("./SQL/settings/guildsettings.sqlite");
@@ -50,20 +47,12 @@ module.exports = async (client, message) => {
                 if (row.prefix === undefined) return prefix = "!"
                 if (message.content.indexOf(prefix) !== 0) return;
                 const args = message.content.slice(prefix.length).trim().split(/ +/g);
-<<<<<<< HEAD
                 const commandargs = message.content.split(' ').slice(1).join(' ');
                 const command = args.shift().toLowerCase();
                 client.channels.get("544290801216126976").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
                     try {
                         let commandFile = require(`../commands/${command}.js`);
                         commandFile.run(client, message, args, Discord, fs, sql);
-=======
-                const command = args.shift().toLowerCase();
-                client.channels.get("544290801216126976").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${args}`);
-                    try {
-                        let commandFile = require(`../commands/${command}.js`);
-                        commandFile.run(client, message, args);
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
                     } catch (err) {
                         if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
                             return;
@@ -75,20 +64,12 @@ module.exports = async (client, message) => {
             if (row.prefix === undefined) return prefix = "!"
             if (message.content.indexOf(prefix) !== 0) return;
             const args = message.content.slice(prefix.length).trim().split(/ +/g);
-<<<<<<< HEAD
             const commandargs = message.content.split(' ').slice(1).join(' ');
             const command = args.shift().toLowerCase();
             client.channels.get("544290801216126976").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
                 try {
                     let commandFile = require(`../commands/${command}.js`);
                     commandFile.run(client, message, args, Discord, fs, sql);
-=======
-            const command = args.shift().toLowerCase();
-            client.channels.get("544290801216126976").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${args}`);
-                try {
-                    let commandFile = require(`../commands/${command}.js`);
-                    commandFile.run(client, message, args);
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
                 } catch (err) {
                         if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
                             return;

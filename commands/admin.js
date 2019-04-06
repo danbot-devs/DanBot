@@ -1,15 +1,7 @@
-<<<<<<< HEAD
 exports.run = (client, message, args, Discord, fs, sql) => {
     sql.open("./SQL/settings/guildsettings.sqlite");
     sql1.open("./SQL/admins.sqlite");
 
-=======
-const fs = require("fs");
-const sql = require("sqlite");
-sql.open("./SQL/settings/guildsettings.sqlite");
-sql1.open("./SQL/admins.sqlite");
-exports.run = (client, message, args) => {
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
       if (message.author.id !== "137624084572798976") return message.channel.send("HAHA! Nice try :)");
       sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
             const prefixtouse = row.prefix

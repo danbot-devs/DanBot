@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 exports.run = async (client, message, args, Discord) => {
-=======
-const Discord = require("discord.js");
-exports.run = async (client, message, args) => {
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
     try {
        const text = args.join(" ");
         if (text === null) return message.channel.send("You need to provide text for the achievement");

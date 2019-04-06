@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 exports.run = (client, message, args, Discord, sql) => {
     sql.open("./SQL/settings/guildsettings.sqlite");
 
-=======
-const Discord = require("discord.js");
-const sql = require("sqlite");
-sql.open("./SQL/settings/guildsettings.sqlite");
-exports.run = (client, message, args) => {
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
      if (message.member.hasPermission("BAN_MEMBERS")) {
          sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
             const reason = args.join(" ") || `Moderator didn't give a reason.`;

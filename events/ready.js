@@ -76,10 +76,6 @@ setInterval(() => {
     client.channels.get("542078434361475083").setName(`Guilds: ${Math.ceil(client.guilds.size)}`)
     client.channels.get("542078467420717071").setName(`Users: ${client.guilds.reduce((p, c) => p + c.memberCount, 0).toLocaleString()}`)
     client.channels.get("542078526371659807").setName(`Channels: ${client.channels.size.toLocaleString()}`)
-<<<<<<< HEAD
-=======
-    client.channels.get("553296522905780225").setTopic(`Did you know: DanBot is watching over ${client.guilds.reduce((p, c) => p + c.memberCount, 0).toLocaleString()} users in ${Math.ceil(client.guilds.size)} servers. You can help this grow by inviting me to your server! https://danbot.xyz/invite`)
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
   }, 10000);
 
 //Bots API Posting Stats
@@ -87,8 +83,4 @@ const apiKeys = require('../datajsons//API.json')
 const blapi = require('blapi')
 blapi.handle(client, apiKeys, 60);
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110

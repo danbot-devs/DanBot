@@ -62,11 +62,7 @@ exports.run = (client, message) => {
   .addField(':runner: Servers:', `**${client.guilds.size.toLocaleString()}**`, true)
   .addField(':information_desk_person: Users:', `**${client.guilds.reduce((p, c) => p + c.memberCount, 0).toLocaleString()}**`, true)
   .addField(':clipboard: Channels:', `**${client.channels.size.toLocaleString()}**`, true)
-<<<<<<< HEAD
   .addField(":pcmemory: RAM", `**${Math.trunc((process.memoryUsage().heapUsed) / 1024 / 1000)} MB / ${Math.trunc(os.totalmem() / 1024 / 1000)} MB (${Math.round((Math.round(process.memoryUsage().heapUsed / 1024 / 1024) / Math.round(os.totalmem() / 1024 / 1024)) * 100)}%)**`, true)
-=======
-  .addField(":memory: RAM", `**${Math.trunc((process.memoryUsage().heapUsed) / 1024 / 1000)} MB / ${Math.trunc(os.totalmem() / 1024 / 1000)} MB (${Math.round((Math.round(process.memoryUsage().heapUsed / 1024 / 1024) / Math.round(os.totalmem() / 1024 / 1024)) * 100)}%)**`, true)
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
   .addField(':microphone2: Voice Connections:', `**${client.voiceConnections.size}**`, true)
 //  .addField(':timer: Ready Timestamp', `**${client.readyAt}**`, true)
   .setFooter(`Ready Timestamp: ${myDate.toString()}`)
@@ -74,8 +70,4 @@ exports.run = (client, message) => {
   .setColor(6583245);
     message.channel.send({embed})
   .catch(console.error); 
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> b3212c029a79f0051cadf7273ab017022e882110
