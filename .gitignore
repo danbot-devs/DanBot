@@ -1,0 +1,10 @@
+node_modules
+.git
+gitpush.sh
+data
+package-lock.json
+database.db
+datajsons
+logs
+SQL
+API.json
