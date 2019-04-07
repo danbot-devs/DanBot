@@ -3,7 +3,11 @@ const client = new Discord.Client()
 const fs = require("fs");
 const sql = require("sqlite");
 sql.open("./SQL/settings/guildsettings.sqlite");
+
+//If you are hosting this change "../config.json" from 2 dots to 1
 const config = require("../config.json");
+
+
 //Website and Invite Checks
 const invitecheck = ["discord.gg", "discord.me", "discord.io/", "discordapp.com/invite"]
 const weblinkcheck = ["http", "www.", ".com", ".net", ".org", ".ca", ".co.uk", ".xyz", ".ga", ".tk"]
