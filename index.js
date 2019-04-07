@@ -4,7 +4,7 @@ const fs = require("fs");
 const sql = require("sqlite");
 sql.open("./SQL/settings/guildsettings.sqlite");
 
-//If you are hosting this change "../config.json" from 2 dots to 1
+//If you are hosting this put your config file in the parent directory.
 const config = require("../config.json");
 
 
