@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const snekfetch = require('snekfetch')
 const Canvas = require('canvas')
 exports.run = async (client, message, args, color, member) => {
-	const canvas = Canvas.createCanvas(900, 200);
+	const canvas = Canvas.createCanvas(1500, 1500);
 	const ctx = canvas.getContext('2d');
 	const background = await Canvas.loadImage('./images/background.jpg');
 	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -10,8 +10,8 @@ exports.run = async (client, message, args, color, member) => {
 	ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-	ctx.font = '28px sans-serif';
-	const fonts = ctx.font = '28px sans-serif';
+	ctx.font = '40px sans-serif';
+	const fonts = ctx.font = '40px sans-serif';
 	ctx.fillStyle = '#ffffff';
 	ctx.fillText(`Library: discord.js v${Discord.version}`, canvas.width / 2.5, canvas.height / 3.5);
 	ctx.fillStyle = '#ffffff';
