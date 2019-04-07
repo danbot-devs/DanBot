@@ -7,15 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "danielpmc",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danielpmc/DanBot.git"
+    "url": "git+https://github.com/danbot-devs/DanBot.git"
   },
   "bugs": {
-    "url": "https://github.com/danielpmc/DanBot/issues"
+    "url": "https://github.com/danbot-devs/DanBot/issues"
   },
-  "homepage": "https://github.com/danielpmc/DanBot#readme",
+  "homepage": "https://github.com/danbot-devs/DanBot#readme",
   "dependencies": {
     "better-sqlite3": "^5.4.0",
     "blapi": "^1.0.1",
