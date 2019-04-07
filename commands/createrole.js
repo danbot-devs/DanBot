@@ -39,6 +39,6 @@ exports.run = (client, message, args) => {
              if (!modlog) return;
              if (row.logsenabled === "disabled") return;
              client.channels.get(modlog.id).send({embed});
-         })
+         });
     }
 }

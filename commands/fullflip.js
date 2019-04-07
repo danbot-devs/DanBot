@@ -15,4 +15,4 @@ exports.run = async (client, message) => {
                 }, 500);
             });
         }, 500);
-})}
+})};

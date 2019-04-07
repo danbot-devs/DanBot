@@ -3,7 +3,6 @@ const bot = new Discord.Client();
 const sql = require("sqlite");
 sql.open("./SQL/settings/guildsettings.sqlite");
 var maincommands = [
-    `__**apis**__ | View stats of our animal APIs`,
     "__**Donate**__ | Donate to help the fees of bot hosting!",
     "__**Donators**__ | View the people who have donated!",
     "__**help**__ | Shows these commands",
