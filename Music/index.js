@@ -7,14 +7,14 @@ const client = new Client({ disableEveryone: true });
 const youtube = new YouTube(config.ytkey);
 const queue = new Map(); 
 client.on('ready', () => client.channels.get("564142791136116736").send('Music has started!'));
+client.on('warn', err => client.channels.get("544290801216126976").send('[WARNING]', err));
+client.on('error', err => client.channels.get("544290801216126976").send('[ERROR]', err));
+client.on('reconnecting', () => client.channels.get("544290801216126976").send('Got disconnected from discord : Reconnecting...'));
+
 const sql = require("sqlite");
 sql.open("../SQL/settings/guildsettings.sqlite");
-
-process.on('uncaughtException', function (err) {
-  client.channels.get("564142791136116736").send(`Got disconnected from discord, Reconnecting...`);
-})
-sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
 client.on('message', async msg => {
+	sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
 	if (msg.author.bot) return undefined;
 	if (!msg.content.startsWith(row.prefix)) return undefined;
 	const args = msg.content.split(' ');
