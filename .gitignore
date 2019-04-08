@@ -8,3 +8,5 @@ datajsons
 logs
 SQL
 API.json
+Music/config.json
+Music/db.sql

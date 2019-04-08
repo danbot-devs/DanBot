@@ -20,7 +20,7 @@ exports.run = async (client, message, args, color, member) => {
 	ctx.fillText(`Library: discord.js v${Discord.version}`, canvas.width / 7.0, canvas.height / 15.0);
 	ctx.fillText(`Software: Node.js ${process.version}`, canvas.width / 7.0, canvas.height / 10.0);
 	ctx.fillText(`DanBot was founded by danielpmc \nDeveloped by the DanBot Dev Team`, canvas.width / 250.0, canvas.height / 5.0);
-	ctx.fillText(`Some other packages we use: \n${packages.dependencies}`, canvas.width / 250.0, canvas.height / 3.0);
+	ctx.fillText(`Some other packages we use: \ncanvas: ${packages.dependencies.canvas}`, canvas.width / 250.0, canvas.height / 3.0);
 	ctx.fillText(`All the source code can be found online at: \nhttps://github.com/danbot-devs`, canvas.width / 250.0, canvas.height / 1.05);
 
 	ctx.beginPath();
