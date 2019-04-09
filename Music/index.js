@@ -3,27 +3,25 @@ const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const fs = require('fs')
 const config = require("./config.json")
+const prefix = '!';
 const client = new Client({ disableEveryone: true });
 const youtube = new YouTube(config.ytkey);
 const queue = new Map(); 
 client.on('ready', () => client.channels.get("564142791136116736").send('Music has started!'));
-client.on('warn', err => client.channels.get("544290801216126976").send('[WARNING]', err));
-client.on('error', err => client.channels.get("544290801216126976").send('[ERROR]', err));
-client.on('reconnecting', () => client.channels.get("544290801216126976").send('Got disconnected from discord : Reconnecting...'));
 
-const sql = require("sqlite");
+process.on('uncaughtException', function (err) {
+  client.channels.get("564142791136116736").send(`Got disconnected from discord, Reconnecting...`);
+})
+
 client.on('message', async msg => {
-	sql.open("../SQL/settings/guildsettings.sqlite");
-	sql.get(`SELECT * FROM scores WHERE guildId ="${msg.guild.id}"`).then(row => {
 	if (msg.author.bot) return undefined;
-	if (!msg.content.startsWith(row.prefix)) return undefined;
+	if (!msg.content.startsWith(prefix)) return undefined;
 	const args = msg.content.split(' ');
 	const searchString = args.slice(1).join(' ');
 	const url = args[1] ? args[1].replace(/<(.+)>/g, '$1') : '';
 	const serverQueue = queue.get(msg.guild.id);
-})
-	const command = msg.content.toLowerCase().split(' ')[0];
-	command = command.slice(row.prefix.length)
+	let command = msg.content.toLowerCase().split(' ')[0];
+	command = command.slice(prefix.length)
 	if (command === 'play') {
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send({ embed: { description: 'I\'m sorry but you need to be in a voice channel!'}});
@@ -195,7 +193,6 @@ return msg.channel.send(queueembed)
 	}
 
 	return undefined;
-	
 });
 
 async function handleVideo(video, msg, voiceChannel, playlist = false) {
