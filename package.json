@@ -4,7 +4,8 @@
   "description": "DanBot is a multi-purpose discord bot. Many different features",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "music": "node /Music/index.js
   },
   "author": "danielpmc",
   "license": "MIT",
