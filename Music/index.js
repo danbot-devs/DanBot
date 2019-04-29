@@ -92,7 +92,7 @@ let msgtoDelete = await msg.channel.send({ embed: selectembed})
 		if (!serverQueue) return msg.channel.send({ embed: { description: 'There is nothing playing that I could stop for you.'}});
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end('Stop command has been used!');
-		return msg.channel.send({ embed: { color: 0xef090, description: 'The music has stopped and I have left the voice channel! cx'}});
+		return msg.channel.send({ embed: { color: 0xef090, description: 'The music has stopped and I have left the voice channel!'}});
 	} else if (command === 'volume') {
 
 			if (!msg.member.voiceChannel) return msg.channel.send({ embed: { description: 'You are not in a voice channel!'}});
