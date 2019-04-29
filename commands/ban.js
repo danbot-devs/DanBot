@@ -21,8 +21,17 @@ exports.run = (client, message, args) => {
   let reason = args.slice(1).join(' ') || `Moderator didn't give a reason.`;
   let modlog = message.guild.channels.find(channel => channel.name == row.logschannel);
   if (!message.guild.member(user).bannable) return message.reply(' I cant ban that member. This may be happening because they are above me. :x:');
+  bot.user.get(user).send("", {
+    embed: new Discord.RichEmbed()
+      .setColor(0x00A2E8)
+      .setTitle("Ban!")
+      .addField("Server:", message.guild.name + `(ID: ${message.guild.id})`, true)
+      .addField("Author:", message.author.tag+`(ID: ${message.author.id})`, true)
+      .addField("Reason:", reason)
+      .setFooter("Time used: " + message.createdAt.toDateString())
+  })
   message.guild.ban(user, 2);
-  message.channel.send("***The User has been successfully banned! :white_check_mark:***")
+  message.channel.send("***The User has been succuessfully banned! :white_check_mark:***")
   sql.run(`UPDATE scores SET casenumber = ${row.casenumber + 1} WHERE guildId = ${message.guild.id}`);
 
   const embed = new Discord.RichEmbed()

@@ -154,10 +154,3 @@ const weblinkcheck = ["http", "www.", ".com", ".net", ".org", ".ca", ".co.uk", "
       })
   });
 client.login(config.token);
-
-process.on('SIGINT', () => {
-  client.channels.get("544290801216126976").send("<@137624084572798976> :sad: i guess you wanted me to SIGINT well here you go :sad:")
-  client.destroy()
-  process.exit(0)
-})
-
