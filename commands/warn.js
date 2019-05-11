@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const sql = require("sqlite");
-sql.open("./SQL/settings/guildsettings.sqlite");
+sql.open("./SQL/settings/guildsettings.sqlite"); 
 exports.run = async (client, message, args) => {
     sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
         const prefixtouse = row.prefix

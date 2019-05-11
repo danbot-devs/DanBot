@@ -1,6 +1,8 @@
 const fs = require("fs");
 exports.run = (client, message, args) => {
-      if (message.author.id !== "137624084572798976") return message.channel.send("Only my owner can use this command");
+      if (message.author.id !== "137624084572798976") {
+        if(message.author.id !== "293841631583535106") {
+        return message.channel.send("Only my owner can use this command");}}
       try {
     fs.readdir("./commands/", (err, files) => {
         if (err) return console.error(err);

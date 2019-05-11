@@ -33,8 +33,8 @@ message.channel.fetchMessages({
    const filterBy = user ? user.id : client.user.id;
    messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount + 1);
  }
- if (amount <= 1) return message.channel.send("Can only delete a min of 2 messages")
- if (amount >= 101) return message.channel.send("Can only delete a max of 98 messages")
+ if (amount < 3) return message.channel.send("Can only delete a min of 2 messages")
+ if (amount > 100) return message.channel.send("Can only delete a max of 98 messages")
  message.channel.bulkDelete(messages, true).catch(error => console.log(error.stack));
  message.channel.send("***The server messages/users messages has been successfully purged! :white_check_mark:***")
  const embed = new Discord.RichEmbed()
