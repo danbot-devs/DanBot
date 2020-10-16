@@ -7,7 +7,7 @@ exports.run = async(client, message) => {
     .setColor(`RANDOM`)
     .addField(`__**Please wait...**__`, `This could take 20 - 40seconds \n __We are running a speedtest for you!__`, true);
     let msg = await message.channel.send(embed)
-    const speed = speedTest({maxTime: 5000});
+    const speed = speedTest({maxTime: 5000, serverId: "4848"});
     speed.on('data', async (data) => {
         embed.fields.pop()
             embed.addField('---------------------------------------------------------------------------------------', '__**Speedtest Data**__')

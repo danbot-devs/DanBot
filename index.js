@@ -1,20 +1,38 @@
 const Discord = require("discord.js");
-const client = new Discord.Client()
+global.client = new Discord.Client({ws:{
+properties: {
+$browser: `Discord Android`,
+$device: `Discord Android`
+}
+}});
 const fs = require("fs");
 const sql = require("sqlite");
 sql.open("./SQL/settings/guildsettings.sqlite");
 
+
 //If you are hosting this put your config file in the parent directory.
-const config = require("../config.json");
+//Or just change the "../config.js" to "./config.js".
+client.config = require("../config.js");
+
+//Music Stuffs
+const ytdl = require('ytdl-core');
+const YouTube = require('simple-youtube-api');
+var opus = require('opusscript');
+const config = client.config;
+client.youtube = new YouTube(client.config.GoogleAPIKey);
+client.queue = new Map();
+const bot = client
+const utils = require('./global/utils');
+require('./global/functions')(bot, utils, ytdl, config, sql);
 
 
 //Website and Invite Checks
 const invitecheck = ["discord.gg", "discord.me", "discord.io/", "discordapp.com/invite"]
 const weblinkcheck = ["http", "www.", ".com", ".net", ".org", ".ca", ".co.uk", ".xyz", ".ga", ".tk"]
 //warnings, errors, reconnecting stuffs
-  client.on('warn', err => client.channels.get("544290801216126976").send('[WARNING]', err));
-  client.on('error', err => client.channels.get("544290801216126976").send('[ERROR]', err));
-  client.on('reconnecting', () => client.channels.get("544290801216126976").send('Got disconnected from discord : Reconnecting...'));
+  client.on('warn', err => console.log('[WARNING]', err));
+  client.on('error', err => console.log('[ERROR]', err));
+//  client.on('reconnecting', () => return;
 //Event Handler
   fs.readdir('./events/', (err, files) => {
     files = files.filter(f => f.endsWith('.js'));
@@ -44,7 +62,7 @@ const weblinkcheck = ["http", "www.", ".com", ".net", ".org", ".ca", ".co.uk", "
   
   client.on("message", async (message) => {
     if (message.author.bot) return;
-    if (message.channel.type === 'dm') return;
+    if (message.channel.type === 'dm') return message.channel.send('I dont work in direct messages... Motherfucker');
     if (!message.guild.member(client.user).hasPermission('SEND_MESSAGES')) return;
     if (!message.guild.member(client.user).hasPermission('MANAGE_MESSAGES')) return;
     if (!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
@@ -58,7 +76,7 @@ const weblinkcheck = ["http", "www.", ".com", ".net", ".org", ".ca", ".co.uk", "
       const args = message.content.slice(prefix.length).trim().split(/ +/g);
   
     if (message.content.startsWith("<@" + client.user.id +">") || message.content.startsWith("<@!" + client.user.id +">")) {
-      message.reply("Guild prefix is `" + row.prefix + "`.")
+      message.reply("the prefix for " + message.guild.name + " is `" + row.prefix + "`")
     }
   
     if (invitecheck.some(word => message.content.toLowerCase().includes(word))) {
@@ -153,10 +171,4 @@ const weblinkcheck = ["http", "www.", ".com", ".net", ".org", ".ca", ".co.uk", "
        } 
       })
   });
-client.login(config.token);
-
-process.on('SIGINT', () => {
-  client.channels.get("544290801216126976").send("<@137624084572798976> :sad: i guess you wanted me to SIGINT well here you go :sad:")
-  client.destroy()
-  process.exit(0)
-})
+client.login(client.config.token);

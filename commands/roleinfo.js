@@ -8,6 +8,7 @@ exports.run = (client, message, args) => {
       .addField('Role name', `${role.name}`, true)
       .addField('Role ID', `${role.id}`, true)
       .addField('Created At', role.createdAt.toDateString())
-      .addField("Mentionable: ", role.mentionable ? 'Yes' : 'No')
+      .addField("Mentionable: ", role.mentionable ? 'Yes' : 'No', true)
+      .addField("Permissions: ", role.permissions)
       message.channel.send({embed}) 
 }

@@ -1,8 +1,8 @@
 const Discord = require('discord.js')
 const sql = require("sqlite");
+const fs = require("fs");
 sql.open("./SQL/settings/guildsettings.sqlite");
 module.exports = (client, guild) => {
-    client.channels.get("544290801216126976").send(`[GUILD LEAVE] ${guild.name} (${guild.id}) removed the bot.`);
 
     let Servericon = guild.iconURL;
     let guildEmbed = new Discord.RichEmbed()
@@ -16,7 +16,11 @@ module.exports = (client, guild) => {
     .addField("__**Total Guilds:**__", `${client.guilds.size}`)
     .setFooter(`The Guilds ID: ${guild.id}`)
     .setTimestamp();
-    client.channels.get("536398920348073994").send(guildEmbed);
+    client.channels.get("595729615126003744").send(guildEmbed);
 
     sql.run(`DELETE FROM scores WHERE guildId = ${guild.id}`)
+
+    if (!fs.existsSync("./guildcommands/" + guild.id)){
+      fs.rmdirSync("./guildcommands/" + guild.id);
+    }
   };

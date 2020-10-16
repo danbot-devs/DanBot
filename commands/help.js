@@ -89,6 +89,14 @@ var musiccommands = [
     "__**resume**__ | Will resume the current music.",
     "__**earrape**__ | Will ear rape your ears. (R.I.P)!"
 ]
+var customcommands = [
+    "__**createcommand**__ | Creates a guild command.",
+    "__**listcommands**__ | Lists all custom commands for this guild!",
+    "__**deletecommand**__ | Deletes a command from the guild's custom commands!",
+    "__**downloadcommand**__ | Downloads the custom command...",
+    "__**uploadcommand**__ | Upload your own custom command :)",
+    "__**commandtemplate**__ | Must be used for the uploadcommand command."
+]
 var admincommands = [
     "__**admin**__ | Give someone bot admin!",
     "__**setgame**__ | Set the bots game!"
@@ -101,7 +109,7 @@ exports.run = (client, message, args) => {
         .setThumbnail(client.user.avatarURL)
         .setTitle("Command: " + prefixtouse + "help")
 	    .addField("Usage", prefixtouse + "help [number]")
-        .addField("Options", "[1] - Main commands. \n[2] - Moderation commands.\n[3] - Fun commands. \n[4] - Nsfw commands. \n[5] - Music Commands.")
+        .addField("Options", "[1] - Main commands. \n[2] - Moderation commands.\n[3] - Fun commands. \n[4] - Nsfw commands. \n[5] - Music Commands. \n[6] - Custom commands.")
         .addField("Example", prefixtouse + "help 3")
         .setDescription("Description: " + "Used to get a list of commands.");
 
@@ -138,12 +146,18 @@ exports.run = (client, message, args) => {
                 .setTitle("Music commands")
                 .setDescription(musiccommands)
                 message.channel.send(embed5)
-        } else if (numberpicked === 6) {
+        } else if (numberpicked === 10) {
             const embed6 = new Discord.RichEmbed()
             .setColor(0x00A2E8)
             .setTitle("Admin commands")
             .setDescription(admincommands)
             message.channel.send(embed6)
+    } else if (numberpicked === 6) {
+            const embed8 = new Discord.RichEmbed()
+            .setColor(0x00A2E8)
+            .setTitle("Custom commands")
+            .setDescription(customcommands)
+            message.channel.send(embed8)
     } else if (numberpicked === 69) {
         const embed7 = new Discord.RichEmbed()
         .setColor(0x00A2E8)

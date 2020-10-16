@@ -1,0 +1,19 @@
+<%- include('../blocks/header', {bot, user, path}) %>
+  <h2>Server Management</h2>
+  <div class="row">
+    <div class="col col-4">
+      <%- include('../blocks/guild-card', {guild}) %>
+    </div>
+    <div class="col">
+      <%- include('../blocks/guild-nav.ejs', {active: "manage", guild}) %>
+      <form method="post">
+        <ul class="list-group list-group-flush">
+        <% const SQLite = require("better-sqlite3");
+        const sql = new SQLite('./SQL/messageleaderboard/msg.sqlite');
+        const top10 = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY points DESC LIMIT 10").all(guild.id){ %>
+              <% include ../blocks/guild-modals %>
+              <script type="text/javascript">
+                var ts = parseInt($('#guildCreate').text());
+                $('#guildCreate').html(`<strong>Created:</strong>: ${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
+              </script>
+            <% include ../blocks/footer %>

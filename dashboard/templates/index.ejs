@@ -1,0 +1,30 @@
+<%- include('blocks/header', {bot:bot, user: user}) %>
+<H1 align="center"> Uh very soon? its been like a year now </H1>
+
+
+<div class="jumbotron">
+    <div class="col-sm-8 mx-auto">
+      <div class="container">
+        
+      <h1><%= bot.user.username %></h1><% if (bot.user.avatarURL) { %></div><% } %>
+      <p>DanBot is on <%= indexstats.servers %> guilds and is watching over <%= indexstats.members %> members!</p>
+      <p>Moderation, Music, Fun + many more commands, what are you waiting for! try DanBot today!</p>
+      <p>New updates every few hours to make sure DanBot is always by your side protecting your server!</p>
+      <p>Every month there is a chance to find a nitro code hidden in commands!</p>
+      <h5>We are doing website updates... please wait</h5>
+      <p>
+        <a class="btn btn-primary" href="/commands" role="button"><i class="fa fa-fw fa-book" aria-hidden="true"></i> Bot Commands »</a>
+      </p>
+        </div>
+    </div>
+  </div>
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-1419536702363407",
+    enable_page_level_ads: true
+  });
+</script>
+
+<% include ./blocks/footer %>

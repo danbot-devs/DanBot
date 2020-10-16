@@ -4,21 +4,23 @@ const sql = require("sqlite");
 const sql2 = require("sqlite");
 sql.open("./SQL/settings/guildsettings.sqlite");
 
+const api = require("../API.js");
+
 module.exports = async (client, message) => {
-    const SQLite = require("better-sqlite3");
-    const sql1 = new SQLite('./SQL/messageleaderboard/msg.sqlite');
-    client.getScore = sql1.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
-    client.setScore = sql1.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points) VALUES (@id, @user, @guild, @points);");
-    if (message.author.bot) return;
-    let score;
-    if (message.guild) {
-      score = client.getScore.get(message.author.id, message.guild.id);
-      if (!score) {
-        score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, points: 0 }
-      }
-      score.points++;
-    }
-    client.setScore.run(score);
+//    const SQLite = require("better-sqlite3");
+//    const sql1 = new SQLite('./SQL/messageleaderboard/msg.sqlite');
+//    client.getScore = sql1.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
+//    client.setScore = sql1.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points) VALUES (@id, @user, @guild, @points);");
+//    if (message.author.bot) return;
+//    let score;
+//    if (message.guild) {
+//      score = client.getScore.get(message.author.id, message.guild.id);
+//      if (!score) {
+//        score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, points: 0 }
+//      }
+//      score.points++;
+//    }
+//    client.setScore.run(score);
   
   
 
@@ -49,15 +51,20 @@ module.exports = async (client, message) => {
                 const args = message.content.slice(prefix.length).trim().split(/ +/g);
                 const commandargs = message.content.split(' ').slice(1).join(' ');
                 const command = args.shift().toLowerCase();
-                client.channels.get("544290801216126976").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
+                client.channels.get("588105811864059905").send(`[${message.guild.name}] [${message.guild.id}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
+    api.addLog({
+        "log_type": "info",
+        "log_message": "Command 8ball executed in " + message.guild.name + " by " + message.author.username,
+        "log_date": Date.now(),
+        "log_action": row.prefix + command + " Args: " + commandargs
+    });
                     try {
                         let commandFile = require(`../commands/${command}.js`);
                         commandFile.run(client, message, args, Discord, fs, sql);
                     } catch (err) {
                         if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
                             return;
-                    } else
-                    client.channels.get("544290801216126976").send(err)
+                    }
                     }
               } else {
             const prefix = row.prefix
@@ -66,19 +73,105 @@ module.exports = async (client, message) => {
             const args = message.content.slice(prefix.length).trim().split(/ +/g);
             const commandargs = message.content.split(' ').slice(1).join(' ');
             const command = args.shift().toLowerCase();
-            client.channels.get("544290801216126976").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
+            client.channels.get("588105811864059905").send(`[${message.guild.name}] [${message.guild.id}]  [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
                 try {
                     let commandFile = require(`../commands/${command}.js`);
                     commandFile.run(client, message, args, Discord, fs, sql);
                 } catch (err) {
                         if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
                             return;
-                    } else
-                        client.channels.get("544290801216126976").send(err)
+                    }
                     }
             } 
           })
+          
+          if (message.author.bot) return;
+          if (message.channel.type === 'dm') return message.channel.send('ERROR: THIS BOT DOES NOT WORK IN DIRECT MESSAGES. IF YOU THINK THIS IS A ERROR PLEASE CONTACT A DEV')
+          sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
+              if (!row) return;
+                  if (!message.guild.member(client.user).hasPermission('SEND_MESSAGES')) return;
+                  if (!message.guild.member(client.user).hasPermission('VIEW_CHANNEL')) return;
+      
+                   if (row.modonlycommands === "enabled") {
+                      if (!message.member.hasPermission("KICK_MEMBERS")) return;
+                      const prefix = row.prefix
+                      if (row.prefix === undefined) return prefix = "!"
+                      if (message.content.indexOf(prefix) !== 0) return;
+                      const args = message.content.slice(prefix.length).trim().split(/ +/g);
+                      const commandargs = message.content.split(' ').slice(1).join(' ');
+                      const command = args.shift().toLowerCase();
+                      client.channels.get("588105811864059905").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
+                          try {
+                              let commandFile = require(`../guildcommands/` + message.guild.id + `/${command}.js`);
+                              commandFile.run(client, message, args);
+                          } catch (err) {
+                              if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
+                                  return;
+                          }
+                          }
+                    } else {
+                  const prefix = row.prefix
+                  if (row.prefix === undefined) return prefix = "!"
+                  if (message.content.indexOf(prefix) !== 0) return;
+                  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+                  const commandargs = message.content.split(' ').slice(1).join(' ');
+                  const command = args.shift().toLowerCase();
+                  client.channels.get("588105811864059905").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
+                      try {
+                          let commandFile = require(`../guildcommands/` + message.guild.id + `/${command}.js`);
+                              commandFile.run(client, message, args);
+                      } catch (err) {
+                              if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
+                                  return;
+                          }
+                          }
+                  } 
+                })
 
+
+                //MUSIC STUFF
+                if (message.author.bot) return;
+          if (message.channel.type === 'dm') return message.channel.send('ERROR: THIS BOT DOES NOT WORK IN DIRECT MESSAGES. IF YOU THINK THIS IS A ERROR PLEASE CONTACT A DEV')
+          sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
+              if (!row) return;
+                  if (!message.guild.member(client.user).hasPermission('SEND_MESSAGES')) return;
+                  if (!message.guild.member(client.user).hasPermission('VIEW_CHANNEL')) return;
+      
+                   if (row.modonlycommands === "enabled") {
+                      if (!message.member.hasPermission("KICK_MEMBERS")) return;
+                      const prefix = row.prefix
+                      if (row.prefix === undefined) return prefix = "!"
+                      if (message.content.indexOf(prefix) !== 0) return;
+                      const args = message.content.slice(prefix.length).trim().split(/ +/g);
+                      const commandargs = message.content.split(' ').slice(1).join(' ');
+                      const command = args.shift().toLowerCase();
+                      client.channels.get("588105811864059905").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
+                          try {
+                              let commandFile = require(`musiccommands/${command}.js`);
+                              commandFile.run(client, message, args);
+                          } catch (err) {
+                              if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
+                                  return;
+                          }
+                          }
+                    } else {
+                  const prefix = row.prefix
+                  if (row.prefix === undefined) return prefix = "!"
+                  if (message.content.indexOf(prefix) !== 0) return;
+                  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+                  const commandargs = message.content.split(' ').slice(1).join(' ');
+                  const command = args.shift().toLowerCase();
+                  client.channels.get("588105811864059905").send(`[${message.guild.name}] [${message.author.username}] >> ${row.prefix}${command} ${commandargs}`);
+                      try {
+                          let commandFile = require(`musiccommands/${command}.js`);
+                              commandFile.run(client, message, args);
+                      } catch (err) {
+                              if (err instanceof Error && err.code === "MODULE_NOT_FOUND") {
+                                  return;
+                          }
+                          }
+                  } 
+                })
 const fs = require('fs')
 let nni = JSON.parse(fs.readFileSync("./datajsons/ctn.json"));
 if(message.author.bot) return;

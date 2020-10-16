@@ -13,4 +13,4 @@ If you are going to run this bot for yourself have fun. I will provide no suppor
 You cant just download this bot and run it. It will NOT work. 
 Also the console doesnt log anything because it all goes to a discord text channel. (See events/ready.js and index.js for channel id)
 
-Also dont forget to check out [the website](https://danbot.xyz) and my other [website](https://extrathicc.xyz) where you can stress test your internet and pc! :)
+Also dont forget to check out [the website](https://danbot.xyz) and my other [website](https://extrathicc.xyz) where you can stress test your internet and pc! :) where you can stress test your internet and pc! :)

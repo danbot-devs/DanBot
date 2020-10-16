@@ -1,107 +1,55 @@
-const Discord = require('discord.js');
-var cpuStat = require('cpu-stat');
-var memStat = require('mem-stat');
-var netStat = require('net-stat');
-var disk = require('diskusage');
-const os = require('os')
-const sql = require("sqlite");
-const fs = require('fs')
-sql.open("./SQL/settings/guildsettings.sqlite");
-
-exports.run = (client, message, args) => {
-  sql.get(`SELECT * FROM scores WHERE guildId ="${message.guild.id}"`).then(row => {
-    const prefixtouse = row.prefix;
-    const embed10 = new Discord.RichEmbed()
-       .setColor(0x00A2E8)
-       .setThumbnail(client.user.avatarURL)
-       .setTitle("Command: " + prefixtouse + "system")
-       .addField("Usage", prefixtouse + "system [number]")
-       .addField("Options", "[1] - CPU Infomation. \n[2] - Ram Infomation. \n[3] - Disk Infomation. \n[4] - Network Infomation")
-       .addField("Example", prefixtouse + "system 1")
-       .setDescription("Description: " + "Show system infomation.");
-
-       let imageapi = JSON.parse(fs.readFileSync("./datajsons/imageapi.json", "utf8"));
-  const numberpicked = parseInt(args[0]);
-  if (isNaN(numberpicked)) return message.channel.send(embed10);
-  if (numberpicked === 1) {
+const Discord = require("discord.js");
+const os = require('os');
+const si = require('systeminformation');
+const pretty = require('prettysize');
+exports.run = async (client, message, args) => {
     var cpu = os.loadavg();
+    //OS UPTIME
+    const uptime = os.uptime();
+    var d = Math.floor(uptime / (3600*24));
+    var h = Math.floor(uptime % (3600*24) / 3600);
+    var m = Math.floor(uptime % 3600 / 60);
+    var s = Math.floor(uptime % 60);
+    var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+
+    //System infomation stuffs
+    const cpudata = await si.cpu();
+    const memdata = await si.mem();
+    let ramused = pretty(memdata.used);
+    let ramtotal = pretty(memdata.total);
+    const userdata = await si.users();
+    const diskdata = await si.fsSize();
+    let diskused = pretty(diskdata[0].used);
+    let disktotal = pretty(diskdata[0].size);
+    const netdata = await si.networkStats();
+    let netrx = pretty(netdata[0].rx_bytes);
+    let nettx = pretty(netdata[0].tx_bytes);
+    const dockerdata = await si.dockerInfo();
+    const osdata = await si.osInfo();
+
     const embed = new Discord.RichEmbed()
     .setColor(0x00A2E8)
-    .setThumbnail(client.user.avatarURL)
-    .addField('__**VM**__:', 'DanBot (Updated When Command Is Ran)')
+    .addField("------------------------------------------------------------------------------------------------", "__**CPU INFO**__")
+    .addField('**CPU**:', cpudata.manufacturer + ` ` + cpudata.brand, true)
+    .addField('**CPU Cores**:', cpudata.cores, true)
     .addField('**CPU Load**:', `${Math.ceil(cpu[1] * 100) / 10 + "%"}`, true)
-    .addField('**CPU Cores**:', `${cpuStat.totalCores()}`, true)
-    .addField('**CPU Type**:', `Intel Xeon CPU E5645`, true)
-    .addBlankField()
-    .addField('__**VM**__:', 'Image APIs (Updated Every 10seconds)')
-    .addField('**CPU Load**:', `${imageapi.cpu + "%"}`, true)
-    .addField('**CPU Cores**:', `${imageapi.cpucores}`, true)
-    .addField('**CPU Type**:', `Intel Xeon CPU E5645`, true)
-    .setDescription("Description: " + "CPU Infomation");
-
+    .addField("------------------------------------------------------------------------------------------------", "__**RAM INFO**__")
+    .addField('**RAM**:', `Used: ${ramused}, Total: ${ramtotal}`, true)
+    .addField("------------------------------------------------------------------------------------------------", "__**STORAGE INFO**__")
+    .addField('**SSD**:', `Used: ${diskused}, Total: ${disktotal}`, true)
+    .addField("------------------------------------------------------------------------------------------------", "__**NETWORK INFO**__")
+    .addField('**NET**:', `Recevied: ${netrx}, Sent: ${nettx}`, true)
+    .addField("------------------------------------------------------------------------------------------------", "__**OS INFO**__")
+    .addField("**OS**:", osdata.platform + " " + osdata.logofile + " " + osdata.release, true)
+    .addField('**OS UPTIME**:', dDisplay + hDisplay + mDisplay + sDisplay, true)
+    .addField('**CURRENT SSH USERS**:', userdata[0].user, true)
+    .addField('**LAST COMMAND RAN**:', userdata[0].command, true)
+    .addField("------------------------------------------------------------------------------------------------", "__**DOCKER INFO**__")
+    .addField("**CONTAINERS**:", dockerdata.containers, true)
+    .addField("**RUNNING**:", dockerdata.containersRunning, true)
+    .addField("**STOPPED**:", dockerdata.containersStopped, true)
     message.channel.send(embed);
-  }else if (numberpicked === 2) {
-    const embed1 = new Discord.RichEmbed()
-    .setColor(0x00A2E8)
-    .setThumbnail(client.user.avatarURL)
-    .addField('__**VM**__:', 'DanBot (Updated When Command Is Ran)')
-    .addField('**Used Mem**:', `${Math.round(memStat.total('MiB') - memStat.free('MiB')) + "MB"}`, true)
-    .addField('**Total Mem**:', `${Math.round(memStat.total('GiB')) + "GB"}`, true)
-    .addField('**Used Percent**:', `${Math.ceil(memStat.usedPercent() * 100) / 100 + "%"}`, true)
-    .addBlankField()
-    .addField('__**VM**__:', 'Image APIs (Updated Every 10seconds)')
-    .addField('**Used Mem**:', `${imageapi.usedmem + "MB"}`, true)
-    .addField('**Total Mem**:', `${imageapi.totalmem + "GB"}`, true)
-    .addField('**Used Percent**:', `${imageapi.usedper + "%"}`, true)
-    .setDescription("Description: " + "Ram Infomation");
-
-    message.channel.send(embed1);
-  }else if (numberpicked === 3) {
-    disk.check('/', function(err, info) {
-
-    const embed2 = new Discord.RichEmbed()
-    .setColor(0x00A2E8)
-    .addField('__**VM**__:', 'DanBot (Updated When Command Is Ran)')
-    .addField('**Disk Used**:', `${Math.round(info.total / 1000000 / 1024) - Math.round(info.free / 1000000 / 1024) + "GB"}`, true)
-    .addField('**Disk Total**:', `${Math.round(info.total / 1000000 / 1024) + "GB"}`, true)
-    .addField('**Drive**:', `Main Drive - 40GB`, true)
-    .addBlankField()
-    .addField('__**VM**__:', 'Image APIs (Updated Every 10seconds)')
-    .addField('**Disk Used**:', `${imageapi.diskused + "GB"}`, true)
-    .addField('**Disk Total**:', `${imageapi.disktotal + "GB"}`, true)
-    .addField('**Drive**:', `Main Drive - 40GB`, true)
-    .setDescription("Description: " + "Disk Infomation");
-
-    message.channel.send(embed2);
-}); 
-
-  }else if (numberpicked === 4) {
-    const embed3 = new Discord.RichEmbed()
-    .setColor(0x00A2E8)
-    .setThumbnail(client.user.avatarURL)
-    .addField('__**VM**__:', 'DanBot (Updated When Command Is Ran)')
-    .addField('**Received Net**:', `${Math.round(netStat.totalRx({ iface: 'enp0s3', units: 'GiB' })) + "GB"}`, true)
-    .addField('**Transmitted Net**:', `${Math.round(netStat.totalTx({ iface: 'enp0s3', units: 'GiB' })) + "GB"}`, true)
-    .addBlankField()
-    .addField('__**VM**__:', 'Image APIs (Updated Every 10seconds)')
-    .addField('**Received Net**:', `${imageapi.netrec + "GB"}`, true)
-    .addField('**Transmitted Net**:', `${imageapi.netsent + "GB"}`, true)
-    .setDescription("Description: " + "Network Infomation");
-
-    message.channel.send(embed3);
-  }
-});
 };
-
-exports.conf = {
-    enabled: true,
-    guildOnly: true,
-    aliases: [],
-    permLevel: "User"
-  };
-  exports.help = {
-    name: "system",
-    category: "Info Commands",
-    description: "Shows CPU, Disk, Net, Mem.",
-    usage: "system"
-  };
